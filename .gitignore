@@ -3,4 +3,5 @@
 ################################################################################
 
 /EventSourcing/obj
-/EventSourcing/.vs/EventSourcing/v17
+/EventSourcing/.vs
+/EventSourcing/bin

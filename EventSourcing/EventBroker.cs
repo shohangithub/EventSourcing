@@ -6,15 +6,31 @@ using System.Threading.Tasks;
 
 namespace EventSourcing
 {
-    public class EventBroker
+    internal class EventBroker
     {
         // 1. Event Storage , Store All Events
-        IList<Event> eventList = new List<Event>();
+        public IList<Event> eventList = new List<Event>();
         // 2. Commands
-        event EventHandler<Command> Commands;
+        public event EventHandler<Command> Commands;
         // 3. Queries
-        event EventHandler<Query> Queries;
+        public event EventHandler<Query> Queries;
 
-        void Command(Command c) => Commands?.Invoke(this, c);
+        public void Command(Command c) => Commands?.Invoke(this, c);
+
+        public T Query<T>(Query q)
+        {
+            Queries?.Invoke(this, q);
+            return (T)q.Result;
+        }
+        public void UndoLast()
+        {
+            var e = eventList.LastOrDefault();
+            var ac = e as AgeChangedEvent;
+            if(ac != null)
+            {
+                Command(new ChangeAgeCommand(ac.Target, ac.Oldvalue) { Register = false });
+                eventList.Remove(e);
+            }
+        }
     }
 }

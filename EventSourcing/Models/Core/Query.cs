@@ -8,5 +8,6 @@ namespace EventSourcing
 {
     internal class Query
     {
+        public object Result;
     }
 }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace EventSourcing
 {
-    internal class Command :EventArgs
+    internal class AgeQuery : Query
     {
-        public bool Register = true;
+        public Person Target;
     }
 }
